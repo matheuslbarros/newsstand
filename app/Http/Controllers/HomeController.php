@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('index', ['articles' => Article::where([])->take(10)->get()]);
+        return view('index', ['articles' => $this->getLastTenArticles()]);
     }
     
     /**
@@ -39,6 +39,17 @@ class HomeController extends Controller
     }
 
     /**
+     * Show the last 10 news formatted by rss.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function rss()
+    {
+        $content = view('rss', ['articles' => $this->getLastTenArticles()]);
+        return response($content)->header('Content-Type', 'text/xml');
+    }
+
+    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
@@ -46,5 +57,9 @@ class HomeController extends Controller
     public function home()
     {
         return view('home');
+    }
+    
+    private function getLastTenArticles() {
+        return Article::where([])->take(10)->get();
     }
 }

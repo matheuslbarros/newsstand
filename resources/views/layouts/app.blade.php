@@ -36,6 +36,9 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
+                        <li>
+                            <a href="/rss">RSS feed</a>
+                        </li>
                         @if (Auth::user())
                             <li>
                                 <a href="/admin/articles">My articles</a>
