@@ -38,12 +38,12 @@
                     <ul class="nav navbar-nav">
                         @if (Auth::user())
                             <li>
-                                <a href="/articles">Browse articles</a>
+                                <a href="/articles">My articles</a>
                             </li>
                             <li>
                                 <a href="/articles/create">Create article</a>
                             </li>
-                        {@endif
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

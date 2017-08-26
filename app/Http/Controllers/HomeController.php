@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Article;
 
 class HomeController extends Controller
 {
@@ -17,11 +18,21 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the application index.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
+    {
+        return view('index', ['articles' => Article::where([])->take(10)->get()]);
+    }
+    
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function home()
     {
         return view('home');
     }
