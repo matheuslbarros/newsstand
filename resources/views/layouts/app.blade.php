@@ -36,12 +36,14 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li>
-                            <a href="/articles">View articles</a>
-                        </li>
-                        <li>
-                            <a href="/articles/create">Create article</a>
-                        </li>
+                        @if (Auth::user())
+                            <li>
+                                <a href="/articles">Browse articles</a>
+                            </li>
+                            <li>
+                                <a href="/articles/create">Create article</a>
+                            </li>
+                        {@endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

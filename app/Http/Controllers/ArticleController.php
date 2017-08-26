@@ -61,45 +61,35 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Article  $article
+     * @param  \App\Article  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Article $article)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Article  $article
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Article $article)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Article  $article
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Article $article)
-    {
-        //
+        return view('article.show', ['article' => $this->getArticle($id)]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Article  $article
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Article $article)
+    public function destroy($id)
     {
-        //
+        $article = $this->getArticle($id);
+//        $article->delete();
+        return redirect('articles');
+    }
+    
+    private function getArticle($id)
+    {
+        $article = Article::where('user_id', Auth::id())->where('id', $id)->first();
+        
+        if (!$article) {
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+        }
+        
+        return $article;
     }
 }
