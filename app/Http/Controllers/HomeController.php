@@ -28,6 +28,17 @@ class HomeController extends Controller
     }
     
     /**
+     * Show the article by id.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function article($id)
+    {
+        return view('article', ['article' => Article::find($id)]);
+    }
+
+    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
