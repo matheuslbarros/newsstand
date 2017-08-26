@@ -21,7 +21,7 @@
                     </article>
                     
                     <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
-                    <a href="/articles/{{ $article->id }}/destroy" class="btn btn-default" onclick="return confirm('Are you sure you want to remove?')">Remove</a>
+                    <a href="/admin/articles/{{ $article->id }}/destroy" class="btn btn-default" onclick="return confirm('Are you sure you want to remove?')">Remove</a>
                 </div>
             </div>
         </div>

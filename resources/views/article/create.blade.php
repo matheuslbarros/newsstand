@@ -17,7 +17,7 @@
                         </div>
                     @endif
                     
-                    <form class="form-horizontal" method="POST" action="/articles/store" enctype="multipart/form-data">
+                    <form class="form-horizontal" method="POST" action="/admin/articles/store" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         
                         <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">

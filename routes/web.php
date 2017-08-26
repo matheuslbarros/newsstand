@@ -15,12 +15,24 @@ Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@home')->name('home');
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/articles', 'ArticleController@index');
-    Route::get('/articles/create', 'ArticleController@create');
-    Route::post('/articles/store', 'ArticleController@store');
-    Route::get('/articles/{id}/show', 'ArticleController@show');
-    Route::get('/articles/{id}/destroy', 'ArticleController@destroy');
+Route::middleware(['auth'])->group(function() {
+    Route::prefix('admin')->group(function () {
+        Route::get('/', 'HomeController@home')->name('home');
+        
+        Route::prefix('articles')->group(function () {
+            Route::get('/', 'ArticleController@index');
+            Route::get('/create', 'ArticleController@create');
+            Route::post('/store', 'ArticleController@store');
+            Route::get('/{id}/show', 'ArticleController@show');
+            Route::get('/{id}/destroy', 'ArticleController@destroy');
+        });
+    });
 });
+
+//Route::middleware(['auth'])->group(function () {
+//    Route::get('/articles', 'ArticleController@index');
+//    Route::get('/articles/create', 'ArticleController@create');
+//    Route::post('/articles/store', 'ArticleController@store');
+//    Route::get('/articles/{id}/show', 'ArticleController@show');
+//    Route::get('/articles/{id}/destroy', 'ArticleController@destroy');
+//});

@@ -38,10 +38,10 @@
                     <ul class="nav navbar-nav">
                         @if (Auth::user())
                             <li>
-                                <a href="/articles">My articles</a>
+                                <a href="/admin/articles">My articles</a>
                             </li>
                             <li>
-                                <a href="/articles/create">Create article</a>
+                                <a href="/admin/articles/create">Create article</a>
                             </li>
                         @endif
                     </ul>

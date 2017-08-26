@@ -55,7 +55,7 @@ class ArticleController extends Controller
         
         $article->save();
         
-        return redirect('articles');
+        return redirect('/admin/articles');
     }
 
     /**
@@ -78,8 +78,8 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         $article = $this->getArticle($id);
-//        $article->delete();
-        return redirect('articles');
+        $article->delete();
+        return redirect('/admin/articles');
     }
     
     private function getArticle($id)
