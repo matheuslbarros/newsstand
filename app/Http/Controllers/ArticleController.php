@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use Illuminate\Http\Request;
+use Auth;
 
 class ArticleController extends Controller
 {
@@ -14,7 +15,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return view('article.index', ['articles' => Article::all]);
+        return view('article.index', ['articles' => Article::where('user_id', Auth::id())->take(10)->get()]);
     }
 
     /**
@@ -24,7 +25,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        return view('article.create', ['article' => new Article()]);
     }
 
     /**
@@ -35,7 +36,26 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'body' => 'required',
+            'publish_date' => 'nullable|date',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        
+        $article = new Article($request->all());
+        $article->setAttribute('user_id', Auth::id());
+        
+        if ($request->file('photo')) {
+            $photo = uniqid() . '.' . $request->file('photo')->getClientOriginalExtension();
+            $request->file('photo')->move(public_path('/images/articles'), $photo);
+            
+            $article->setAttribute('photo', $photo);
+        }
+        
+        $article->save();
+        
+        return redirect('articles');
     }
 
     /**

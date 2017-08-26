@@ -15,15 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin', function() {
-    return 'ok';
-})->middleware('auth');
-
-//Route::get('/login', function() {
-//    
-//})->withName('login');
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/articles', 'ArticleController@index');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/articles', 'ArticleController@index');
+    Route::get('/articles/create', 'ArticleController@create');
+    Route::post('/articles/store', 'ArticleController@store');
+});
