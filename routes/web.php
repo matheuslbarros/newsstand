@@ -13,6 +13,7 @@
 
 Route::get('/', 'HomeController@index');
 Route::get('/article/{id}', 'HomeController@article');
+Route::get('/article/{id}/download', 'HomeController@download');
 Route::get('/rss', 'HomeController@rss');
 
 Auth::routes();

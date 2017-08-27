@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Article;
+use PDF;
 
 class HomeController extends Controller
 {
@@ -14,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+//        $this->middleware('auth');
     }
 
     /**
@@ -36,6 +37,19 @@ class HomeController extends Controller
     public function article($id)
     {
         return view('article', ['article' => Article::find($id)]);
+    }
+    
+    /**
+     * Export the article as pdf.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function download($id)
+    {
+        $article = Article::findOrFail($id);
+        $pdf = PDF::loadView('download', ['article' => $article]);
+        return $pdf->download(str_slug($article->title) . '.pdf');
     }
 
     /**

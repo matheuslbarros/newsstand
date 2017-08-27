@@ -33,6 +33,7 @@
                     </article>
                     
                     <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
+                    <a href="/article/{{ $article->id }}/download" class="btn btn-default">Download as PDF</a>
                 </div>
             </div>
         </div>
