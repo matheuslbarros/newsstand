@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Auth;
 
 class ArticleController extends Controller
@@ -69,6 +70,7 @@ class ArticleController extends Controller
     {
         $article = $this->getArticle($id);
         $article->delete();
+        File::delete(public_path('/images/articles') . "/" . $article->photo);
         return redirect('/admin/articles');
     }
     
