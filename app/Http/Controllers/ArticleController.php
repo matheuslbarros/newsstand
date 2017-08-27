@@ -36,14 +36,9 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'title' => 'required|max:255',
-            'body' => 'required',
-            'publish_date' => 'nullable|date',
-            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        $this->validate($request, $this->rules());
         
-        $article = new Article($request->all());
+        $article = new Article($request->only(['title', 'body', 'publish_date']));
         $article->setAttribute('user_id', Auth::id());
         
         if ($request->file('photo')) {
@@ -80,6 +75,21 @@ class ArticleController extends Controller
         $article = $this->getArticle($id);
         $article->delete();
         return redirect('/admin/articles');
+    }
+    
+    /**
+     * Get the article validation rules.
+     *
+     * @return array
+     */
+    private function rules()
+    {
+        return [
+            'title' => 'required|max:255',
+            'body' => 'required',
+            'publish_date' => 'required|date',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ];
     }
     
     private function getArticle($id)
