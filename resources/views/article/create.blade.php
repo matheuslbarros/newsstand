@@ -66,7 +66,7 @@
                             <label for="photo" class="col-md-4 control-label">Photo</label>
                             
                             <div class="col-md-6">
-                                <input type="file" id="photo" name="photo" />
+                                <input type="file" id="photo" name="photo" required accept="image/*" />
                                 
                                 @if ($errors->has('photo'))
                                     <span class="help-block">

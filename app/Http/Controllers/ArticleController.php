@@ -39,16 +39,11 @@ class ArticleController extends Controller
         $this->validate($request, $this->rules());
         
         $article = new Article($request->only(['title', 'body', 'publish_date']));
-        $article->setAttribute('user_id', Auth::id());
-        
-        if ($request->file('photo')) {
-            $photo = uniqid() . '.' . $request->file('photo')->getClientOriginalExtension();
-            $request->file('photo')->move(public_path('/images/articles'), $photo);
-            
-            $article->setAttribute('photo', $photo);
-        }
-        
+        $article->user_id = Auth::id();
+        $article->photo = $this->getPhotoFilename($request);
         $article->save();
+        
+        $request->file('photo')->move(public_path('/images/articles'), $article->photo);
         
         return redirect('/admin/articles');
     }
@@ -88,8 +83,13 @@ class ArticleController extends Controller
             'title' => 'required|max:255',
             'body' => 'required',
             'publish_date' => 'required|date',
-            'photo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
+    }
+    
+    private function getPhotoFilename($request)
+    {
+        return uniqid() . '.' . $request->file('photo')->getClientOriginalExtension();
     }
     
     /**
