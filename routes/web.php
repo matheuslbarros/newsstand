@@ -12,15 +12,18 @@
 */
 
 Route::get('/', 'HomeController@index');
-Route::get('/article/{id}', 'HomeController@article');
-Route::get('/article/{id}/download', 'HomeController@download');
 Route::get('/rss', 'HomeController@rss');
+
+Route::prefix('news')->group(function () {
+    Route::get('/{article}', 'NewsController@show');
+    Route::get('/{article}/download', 'NewsController@download');
+});
 
 Auth::routes();
 
 Route::middleware(['auth'])->group(function() {
     Route::prefix('admin')->group(function () {
-        Route::get('/', 'HomeController@home')->name('home');
+        Route::get('/', 'AdminController@index')->name('home');
         
         Route::prefix('articles')->group(function () {
             Route::get('/', 'ArticleController@index');

@@ -10,7 +10,7 @@
                     <ul>
                         @forelse ($articles as $article)
                             <li>
-                                <a href="/article/{{ $article->id }}">
+                                <a href="/news/{{ $article->id }}">
                                     {{ $article->title }}
                                 </a>
                             </li>

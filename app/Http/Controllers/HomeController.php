@@ -2,21 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Article;
-use PDF;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-//        $this->middleware('auth');
-    }
 
     /**
      * Show the application index.
@@ -26,30 +15,6 @@ class HomeController extends Controller
     public function index()
     {
         return view('index', ['articles' => $this->getLastTenArticles()]);
-    }
-    
-    /**
-     * Show the article by id.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function article($id)
-    {
-        return view('article', ['article' => Article::find($id)]);
-    }
-    
-    /**
-     * Export the article as pdf.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function download($id)
-    {
-        $article = Article::findOrFail($id);
-        $pdf = PDF::loadView('download', ['article' => $article]);
-        return $pdf->download(str_slug($article->title) . '.pdf');
     }
 
     /**
@@ -76,4 +41,5 @@ class HomeController extends Controller
     private function getLastTenArticles() {
         return Article::where([])->take(10)->get();
     }
+
 }
