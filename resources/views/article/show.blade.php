@@ -10,11 +10,9 @@
                         <header>
                             <h1>{{ $article->title }}</h1>
                         </header>
-                        @if ($article->photo)
-                            <figure>
-                                <img src="/images/articles/{{ $article->photo }}" class="img-responsive" />
-                            </figure>
-                        @endif
+                        <figure>
+                            <img src="/images/articles/{{ $article->photo }}" class="img-responsive" />
+                        </figure>
                         <div>
                             <p>{!! nl2br(e($article->body)) !!}</p>
                         </div>

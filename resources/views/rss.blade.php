@@ -10,11 +10,9 @@
                 <description>{{ Str::words($article->body, 255) }}</description>
                 <pubDate>{{ (new Datetime($article->publish_date))->format(DateTime::RFC822) }}</pubDate>
                 <author>{{ $article->user->name }}</author>
-                @if ($article->photo)
-                    <image>
-                        <url>{{ Request::root() }}/images/articles/{{ $article->photo }}</url>
-                    </image>
-                @endif
+                <image>
+                    <url>{{ Request::root() }}/images/articles/{{ $article->photo }}</url>
+                </image>
             </item>
         @endforeach
     </channel>

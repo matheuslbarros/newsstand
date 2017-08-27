@@ -21,11 +21,9 @@
                             <time datetime="{{ (new Datetime($article->publish_date))->format(DateTime::ATOM) }}">{{ $article->publish_date }}</time>
                         </div>
                         
-                        @if ($article->photo)
-                            <figure>
-                                <img src="/images/articles/{{ $article->photo }}" class="img-responsive" />
-                            </figure>
-                        @endif
+                        <figure>
+                            <img src="/images/articles/{{ $article->photo }}" class="img-responsive" />
+                        </figure>
                         
                         <div class="content">
                             <p>{!! nl2br(e($article->body)) !!}</p>

@@ -18,7 +18,7 @@ class CreateArticlesTable extends Migration
             $table->string('title');
             $table->text('body');
             $table->dateTime('publish_date');
-            $table->string('photo')->nullable();
+            $table->string('photo');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
