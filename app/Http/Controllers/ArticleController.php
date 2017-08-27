@@ -15,7 +15,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return view('article.index', ['articles' => Article::where('user_id', Auth::id())->take(10)->get()]);
+        return view('article.index', ['articles' => $this->getArticles()]);
     }
 
     /**
@@ -92,6 +92,23 @@ class ArticleController extends Controller
         ];
     }
     
+    /**
+     * Get articles
+     * 
+     * @return Article[]
+     */
+    private function getArticles()
+    {
+        return Article::where('user_id', Auth::id())->orderBy('id', 'desc')->get();
+    }
+
+    /**
+     * Get the article by id
+     * 
+     * @param int $id
+     * @return Article
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
     private function getArticle($id)
     {
         $article = Article::where('user_id', Auth::id())->where('id', $id)->first();

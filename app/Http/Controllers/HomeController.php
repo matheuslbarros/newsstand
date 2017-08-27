@@ -39,7 +39,7 @@ class HomeController extends Controller
     }
     
     private function getLastTenArticles() {
-        return Article::where([])->take(10)->get();
+        return Article::where([])->orderBy('id', 'desc')->take(10)->get();
     }
 
 }
