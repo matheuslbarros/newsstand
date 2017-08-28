@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 
-class RegisterController extends TestCase
+class RegisterControllerTest extends TestCase
 {
 
     public function testRegisterSuccess()

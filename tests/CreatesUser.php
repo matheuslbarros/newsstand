@@ -11,12 +11,12 @@ trait CreatesUser
     /**
      * @var Faker
      */
-    private $faker;
+    protected $faker;
 
     /**
      * @var User
      */
-    private $user;
+    protected $user;
 
     public function createUser() {
         $this->faker = Faker::create();

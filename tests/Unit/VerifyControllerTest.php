@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\User;
 
-class VerifyController extends TestCase
+class VerifyControllerTest extends TestCase
 {
     
     public function testVerifySuccess()

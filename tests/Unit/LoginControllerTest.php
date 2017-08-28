@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\User;
 
-class LoginController extends TestCase
+class LoginControllerTest extends TestCase
 {
     
     public function testLoginSuccess()
