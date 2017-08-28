@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception as PHPMailerException;
 
 class RegisterController extends Controller
 {
@@ -81,12 +82,16 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
         
-        $user = $this->create($request->all());
-        
         try {
-            $this->mail($user);
-        } catch (\Exception $e) {
-            $user->delete();
+            \DB::beginTransaction();
+            
+            $user = $this->create($request->all());
+            
+            $this->sendVerificationEmail($user);
+            
+            \DB::commit();
+        } catch (PHPMailerException $e) {
+            \DB::rollBack();
             
             return redirect()->back()
                 ->withInput(['name', 'email'])
@@ -104,9 +109,9 @@ class RegisterController extends Controller
      * @param User $user
      * @throws \Exception
      */
-    private function mail(User $user)
+    private function sendVerificationEmail(User $user)
     {
-        $mail = new PHPMailer();
+        $mail = new PHPMailer(true);
         
         if (getenv('MAIL_DRIVER') === 'smtp')
         {
@@ -118,16 +123,11 @@ class RegisterController extends Controller
             $mail->Password = getenv('MAIL_PASSWORD');
         }
         
+        $mail->Subject = 'Verify Your Email Address [Newsstand]';
         $mail->setFrom(getenv('MAIL_FROM_ADDRESS'), getenv('MAIL_FROM_NAME'));
         $mail->addAddress($user->email, $user->name);
-        
-        $mail->Subject = 'Verify Your Email Address [Newsstand]';
         $mail->msgHTML(view('auth.email', ['confirmation_code' => $user->confirmation_code])->render());
-        
-        if (!$mail->send())
-        {
-            throw new \Exception($mail->ErrorInfo);
-        }
+        $mail->send();
     }
 
 }

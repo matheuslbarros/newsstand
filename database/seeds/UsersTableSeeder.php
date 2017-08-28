@@ -16,6 +16,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Administrador',
             'email' => 'admin@newsstand.com',
             'password' => Hash::make('password'),
+            'confirmed' => 1,
         ]);
     }
 }

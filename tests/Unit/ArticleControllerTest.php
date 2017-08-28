@@ -58,7 +58,7 @@ class ArticleControllerTest extends TestCase
     
     public function testShow()
     {
-        $article = Article::first();
+        $article = Article::firstOrFail();
         $response = $this->get('/admin/articles/' . $article->id . '/show');
         $response->assertSuccessful();
         $response->assertViewHas('article');
@@ -66,7 +66,7 @@ class ArticleControllerTest extends TestCase
     
     public function testDelete()
     {
-        $article = Article::first();
+        $article = Article::firstOrFail();
         $response = $this->get('/admin/articles/' . $article->id . '/destroy');
         $response->assertRedirect('/admin/articles');
     }
