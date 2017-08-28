@@ -21,6 +21,9 @@ Route::prefix('news')->group(function () {
 
 Auth::routes();
 
+Route::get('/verify/{confirmationCode}', 'Auth\VerifyController@show');
+Route::post('/verify/{confirmationCode}', 'Auth\VerifyController@verify');
+
 Route::middleware(['auth'])->group(function() {
     Route::prefix('admin')->group(function () {
         Route::get('/', 'AdminController@index')->name('home');
