@@ -37,11 +37,3 @@ Route::middleware(['auth'])->group(function() {
         });
     });
 });
-
-//Route::middleware(['auth'])->group(function () {
-//    Route::get('/articles', 'ArticleController@index');
-//    Route::get('/articles/create', 'ArticleController@create');
-//    Route::post('/articles/store', 'ArticleController@store');
-//    Route::get('/articles/{id}/show', 'ArticleController@show');
-//    Route::get('/articles/{id}/destroy', 'ArticleController@destroy');
-//});
