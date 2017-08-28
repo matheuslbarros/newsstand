@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
+use PHPMailer\PHPMailer\PHPMailer;
 
 class RegisterController extends Controller
 {
@@ -80,10 +81,53 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
         
-        event(new Registered($user = $this->create($request->all())));
+        $user = $this->create($request->all());
         
-        // @TODO: send email
+        try {
+            $this->mail($user);
+        } catch (\Exception $e) {
+            $user->delete();
+            
+            return redirect()->back()
+                ->withInput(['name', 'email'])
+                ->withErrors(['email' => 'Failed to send email']);
+        }
+        
+        event(new Registered($user));
         
         return redirect('/login')->with('status', 'Thanks for signing up! Please check your email.');
     }
+
+    /**
+     * Send verification email
+     * 
+     * @param User $user
+     * @throws \Exception
+     */
+    private function mail(User $user)
+    {
+        $mail = new PHPMailer();
+        
+        if (getenv('MAIL_DRIVER') === 'smtp')
+        {
+            $mail->isSMTP();
+            $mail->SMTPAuth = true;
+            $mail->Host = getenv('MAIL_HOST');
+            $mail->Port = getenv('MAIL_PORT');
+            $mail->Username = getenv('MAIL_USERNAME');
+            $mail->Password = getenv('MAIL_PASSWORD');
+        }
+        
+        $mail->setFrom(getenv('MAIL_FROM_ADDRESS'), getenv('MAIL_FROM_NAME'));
+        $mail->addAddress($user->email, $user->name);
+        
+        $mail->Subject = 'Verify Your Email Address [Newsstand]';
+        $mail->msgHTML(view('auth.email', ['confirmation_code' => $user->confirmation_code])->render());
+        
+        if (!$mail->send())
+        {
+            throw new \Exception($mail->ErrorInfo);
+        }
+    }
+
 }
