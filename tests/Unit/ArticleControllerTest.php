@@ -10,11 +10,22 @@ use Faker\Factory;
 
 class ArticleControllerTest extends TestCase
 {
+
+    /**
+     * @var Factory
+     */
+    private $faker;
+    
+    /**
+     * @var User
+     */
+    private $user;
     
     protected function setUp() {
         parent::setUp();
         $this->faker = Factory::create();
-        $this->be(User::first());
+        $this->user = User::first();
+        $this->be($this->user);
     }
 
     public function testIndex()
