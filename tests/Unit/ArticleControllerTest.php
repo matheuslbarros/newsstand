@@ -46,6 +46,19 @@ class ArticleControllerTest extends TestCase
         $response->assertRedirect('/admin/articles');
     }
     
+    public function testStoreShouldThrowRequiredFields()
+    {
+        $response = $this->post('/admin/articles/store', []);
+        
+        $response->assertRedirect();
+        $response->assertSessionHasErrors([
+            'title' => 'The title field is required.',
+            'body' => 'The body field is required.',
+            'publish_date' => 'The publish date field is required.',
+            'photo' => 'The photo field is required.',
+        ]);
+    }
+    
     public function testShow()
     {
         $article = Article::firstOrFail();
@@ -54,11 +67,23 @@ class ArticleControllerTest extends TestCase
         $response->assertViewHas('article');
     }
     
+    public function testShowShouldThrowNotFound()
+    {
+        $response = $this->get('/admin/articles/' . 0 . '/show');
+        $response->assertStatus(404);
+    }
+
     public function testDelete()
     {
         $article = Article::firstOrFail();
         $response = $this->get('/admin/articles/' . $article->id . '/destroy');
         $response->assertRedirect('/admin/articles');
+    }
+    
+    public function testDeleteShouldThrowNotFound()
+    {
+        $response = $this->get('/admin/articles/' . 0 . '/destroy');
+        $response->assertStatus(404);
     }
 
 }
