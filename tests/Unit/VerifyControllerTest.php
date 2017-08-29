@@ -7,11 +7,15 @@ use App\User;
 
 class VerifyControllerTest extends TestCase
 {
-    
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->createUser();
+    }
+
     public function testVerifySuccess()
     {
-        $this->createUser();
-        
         User::create([
             'name' => $this->user->name,
             'email' => $this->user->email,
@@ -29,6 +33,18 @@ class VerifyControllerTest extends TestCase
         ]);
         
         $response->assertRedirect('/login');
+        $response->assertSessionHas('status', 'You have successfully verified your account.');
+    }
+
+    public function testVerifyShouldThrowInvalidConfirmationCode()
+    {
+        $response = $this->post('/verify/' . $this->faker->md5, [
+            'password' => $this->user->password,
+            'password_confirmation' => $this->user->password,
+        ]);
+        
+        $response->assertRedirect();
+        $response->assertSessionHasErrors(['confirmation_code' => 'Invalid confirmation code']);
     }
 
 }
