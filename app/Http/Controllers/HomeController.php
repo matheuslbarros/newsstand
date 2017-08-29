@@ -29,16 +29,12 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
+     * Get the last ten articles
+     * 
+     * @return Article[]
      */
-    public function home()
+    private function getLastTenArticles()
     {
-        return view('home');
-    }
-    
-    private function getLastTenArticles() {
         return Article::where([])->orderBy('id', 'desc')->take(10)->get();
     }
 
